@@ -1,56 +1,230 @@
-/* Blue + Red Patriot Theme */
-.bg-custom-gradient {
-  background: linear-gradient(135deg, #0d6efd, #b30000);
-  color: white;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
-/* Drag & Drop Area */
+body.light {
+  background: #f3f3f3;
+  color: #222;
+}
+
+body.dark {
+  background: #121212;
+  color: #f0f0f0;
+}
+
+/* --- HERO SECTION --- */
+.hero {
+  background: linear-gradient(135deg, #8b0000, #003366);
+  padding: 60px 20px;
+  text-align: center;
+  color: white;
+  position: relative;
+}
+
+.title {
+  font-size: 2.6rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.dark-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: 2px solid white;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: white;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.dark-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* --- MAIN CONTAINER --- */
+.main-container {
+  width: 95%;
+  max-width: 700px;
+  margin: 40px auto;
+}
+
+/* --- CARD --- */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+body.dark .card {
+  background: #1c1c1c;
+  box-shadow: 0 3px 12px rgba(255,255,255,0.05);
+}
+
+/* --- DROP AREA --- */
 .drop-area {
   height: 160px;
   border: 3px dashed #0d6efd;
   border-radius: 12px;
-  background: #f8faff;
+  background: #f7faff;
   text-align: center;
   padding-top: 35px;
+  margin: 20px 0;
   position: relative;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: 0.3s;
 }
 
 .drop-area:hover {
-  background: #eef5ff;
   border-color: #b30000;
+  background: #eef3ff;
+}
+
+.upload-icon {
+  font-size: 2.3rem;
+  margin-top: 10px;
+  color: #0050d8;
 }
 
 .drop-area input {
   position: absolute;
-  top: 0; left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   opacity: 0;
 }
 
-.hidden {
-  display: none !important;
+body.dark .drop-area {
+  background: #1f1f1f;
+  border-color: #b30000;
 }
 
-/* Recipe cards */
-.recipe-card {
-  background: white;
-  border-left: 5px solid #0d6efd;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+/* --- BUTTONS --- */
+.btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.2s;
 }
 
-.recipe-title {
-  color: #b30000;
-  font-weight: bold;
+.primary-btn {
+  background: #0050d8;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #003ea8;
+}
+
+.danger-btn {
+  background: #b30000;
+  color: white;
+}
+
+.danger-btn:hover {
+  background: #8a0000;
+}
+
+/* --- LISTS --- */
+.image-list, 
+.ingredient-list {
+  list-style: none;
+  margin: 10px 0;
+}
+
+.image-list li, 
+.ingredient-list li {
+  background: #fafafa;
+  margin-bottom: 8px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body.dark .image-list li,
+body.dark .ingredient-list li {
+  background: #2a2a2a;
 }
 
 .remove-btn {
-  cursor: pointer;
   color: #b30000;
-  font-size: 18px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+/* --- LOADING SPINNER --- */
+.loading {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.spinner {
+  border: 4px solid rgba(0,0,0,0.1);
+  border-left-color: #0d6efd;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.hidden {
+  display: none;
+}
+
+/* --- RECIPE CARDS --- */
+.recipe-card {
+  background: white;
+  border-left: 5px solid #0d6efd;
+  padding: 18px;
+  border-radius: 10px;
+  margin: 15px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+body.dark .recipe-card {
+  background: #1f1f1f;
+  border-left-color: #b30000;
+}
+
+.recipe-card pre {
+  white-space: pre-wrap;
+  font-size: 0.95rem;
+}
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 480px) {
+  .title {
+    font-size: 2.1rem;
+  }
+
+  .drop-area {
+    height: 130px;
+    padding-top: 20px;
+  }
+
+  .recipe-card pre {
+    font-size: 0.85rem;
+  }
 }
