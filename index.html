@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maach Buddy</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>AI Ingredient → Recipe Generator</h1>
+    <p class="subtitle">Upload your ingredients and let AI suggest recipes!</p>
+
+    <div class="upload-box">
+      <input type="file" id="imageUpload" accept="image/*" />
+      <button id="detectBtn">Detect Ingredients</button>
+    </div>
+
+    <div id="loading" class="hidden">Analyzing image…</div>
+
+    <div class="output-section">
+      <h2>Detected Ingredients:</h2>
+      <ul id="ingredientList"></ul>
+
+      <button id="recipeBtn" class="hidden">Generate Recipes</button>
+    </div>
+
+    <div id="recipes"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
