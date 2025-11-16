@@ -1,68 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Maach Buddy</title>
-
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-  <!-- Load Gradio Client -->
-  <script src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
-
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <title>Maach Buddy</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="light">
+<body>
 
-  <!-- HERO -->
-  <section class="hero">
-    <button id="darkModeBtn" class="dark-btn">🌙</button>
+    <h1>🐠 Maach Buddy</h1>
+    <p>Upload a fish image to identify it and generate a recipe.</p>
 
-    <h1 class="title">Maach Buddy</h1>
-    <p class="subtitle">Upload your ingredient images, and let AI create recipes!</p>
-  </section>
+    <input id="imageInput" type="file" accept="image/*">
+    <br>
+    <button id="detectBtn">Identify & Generate Recipe</button>
 
-  <div class="main-container">
+    <div id="loading" class="hidden">Processing…</div>
 
-    <!-- Upload Card -->
-    <div class="card">
+    <h2>Prediction</h2>
+    <pre id="predictionBox"></pre>
 
-      <h3>Upload Ingredient Images</h3>
+    <h2>Recipe</h2>
+    <pre id="recipeBox"></pre>
 
-      <!-- Drag + Drop -->
-      <div id="dropArea" class="drop-area">
-        <p>Drag & Drop images here or click to browse</p>
-        <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
-        <input type="file" id="imageUpload" multiple accept="image/*" />
-      </div>
-
-      <!-- Selected image list -->
-      <ul id="imageList" class="image-list"></ul>
-
-      <button id="detectBtn" class="btn primary-btn">
-        <i class="fa-solid fa-search"></i> Detect Ingredients
-      </button>
-
-      <div id="loading" class="loading hidden">
-        <div class="spinner"></div>
-        <p><strong>Analyzing images…</strong></p>
-      </div>
-
-      <h4>Detected Ingredients:</h4>
-      <ul id="ingredientList" class="ingredient-list"></ul>
-
-      <button id="recipeBtn" class="btn danger-btn hidden">
-        <i class="fa-solid fa-bowl-food"></i> Generate Recipes
-      </button>
-
-    </div>
-
-    <div id="recipes"></div>
-
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
