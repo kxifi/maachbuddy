@@ -1,28 +1,387 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maach Buddy</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(25deg, burlywood 0%, skyblue 60%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: beige;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .upload-section {
+            background: #f8f9fa;
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: #764ba2;
+            background: #f0f0f5;
+        }
+
+        .upload-label {
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .upload-text {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        #photo {
+            display: none;
+        }
+
+        .btn-submit {
+            background: salmon;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: block;
+            margin: 20px auto;
+            font-weight: bold;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #results {
+            margin-top: 30px;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+            display: block;
+        }
+
+        .predictions {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .predictions h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .prediction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .prediction-item:last-child {
+            border-bottom: none;
+        }
+
+        .prediction-label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .prediction-bar {
+            width: 60%;
+            height: 25px;
+            background: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .prediction-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            color: white;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .recipe-section {
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #667eea;
+            margin-top: 20px;
+        }
+
+        .recipe-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .recipe-content {
+            color: #555;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #c62828;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <h1>🐠 Maach Buddy</h1>
+        <p class="subtitle">Upload a fish image to identify it and get a recipe generated by our AI!</p>
 
-    <h1>🐠 Maach Buddy</h1>
-    <p>Upload a fish image to identify it and generate a recipe.</p>
+        <div class="upload-section">
+            <label for="photo" class="upload-label">
+                <div class="upload-icon">📸</div>
+                <div class="upload-text">Click to upload fish image</div>
+                <div class="upload-subtext">Supports JPG, PNG, JPEG formats</div>
+            </label>
+            <input type="file" id="photo" accept="image/*">
+        </div>
 
-    <input id="imageInput" type="file" accept="image/*">
-    <br>
-    <button id="detectBtn">Identify & Generate Recipe</button>
+        <button id="submitBtn" class="btn-submit" disabled>🔍 Identify Fish & Get your Recipe</button>
 
-    <div id="loading" class="hidden">Processing…</div>
+        <div id="results"></div>
+    </div>
 
-    <h2>Prediction</h2>
-    <pre id="predictionBox"></pre>
+    <script type="module">
+        import { Client } from "https://esm.sh/@gradio/client";
 
-    <h2>Recipe</h2>
-    <pre id="recipeBox"></pre>
+        const input = document.getElementById("photo");
+        const submitBtn = document.getElementById("submitBtn");
+        const results = document.getElementById("results");
+        let selectedFile = null;
 
-    <script src="script.js"></script>
+        // When user selects a file, enable the button and show preview
+        input.addEventListener("change", () => {
+            selectedFile = input.files[0];
+            if (selectedFile) {
+                submitBtn.disabled = false;
+                
+                // Show image preview
+                const imgURL = URL.createObjectURL(selectedFile);
+                results.innerHTML = `
+                    <img src="${imgURL}" class="preview-image" alt="Selected fish image"/>
+                    <p style="text-align: center; color: #666; margin-top: 10px;">Image selected! Click the button above to identify.</p>
+                `;
+            }
+        });
+
+        // When user clicks submit button
+        submitBtn.addEventListener("click", async () => {
+            if (!selectedFile) return;
+
+            // Show loading state
+            submitBtn.disabled = true;
+            results.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p style="color: #667eea; font-size: 1.2em;">Analyzing fish and generating recipe...</p>
+                </div>
+            `;
+
+            try {
+                // Connect to the Gradio API
+                const client = await Client.connect("wrezachow/Maach_Buddy");
+                
+                // Send the image to the API
+                const result = await client.predict("/recognize_image", { 
+                    image: selectedFile 
+                });
+
+                console.log("API Response:", result.data);
+
+                // Extract predictions and recipe from the response
+                const predictionsData = result.data[0]; // First item is the predictions
+                const recipeMarkdown = result.data[1]; // Second item is the recipe text
+
+                // Handle different prediction formats
+                let predictions = {};
+
+// Gradio Label format: {label: "top", confidences: [{label, confidence}, ...]}
+if (predictionsData.confidences && Array.isArray(predictionsData.confidences)) {
+    predictionsData.confidences.forEach(item => {
+        predictions[item.label] = item.confidence;
+    });
+} else if (typeof predictionsData === 'object' && !Array.isArray(predictionsData)) {
+    // Direct key-value format
+    predictions = predictionsData;
+}
+
+                console.log("Parsed predictions:", predictions);
+
+                // Parse the recipe markdown to extract fish name and recipe text
+                const lines = recipeMarkdown.split('\n');
+                let fishName = "Unknown Fish";
+                let recipeText = "";
+                
+                for (let line of lines) {
+                    if (line.includes("Predicted Fish:")) {
+                        fishName = line.replace(/#+/g, '').replace('🐟 Predicted Fish:', '').trim();
+                    } else if (line.includes("AI-Generated Recipe:")) {
+                        continue; // Skip this header
+                    } else if (line.trim()) {
+                        recipeText += line + '\n';
+                    }
+                }
+
+                // Sort predictions by confidence
+                const sortedPredictions = Object.entries(predictions)
+                    .filter(([_, confidence]) => !isNaN(confidence)) // Filter out NaN values
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 5); // Top 5 predictions
+
+                // Display the image
+                const imgURL = URL.createObjectURL(selectedFile);
+                
+                // Build the results HTML
+                let resultsHTML = `
+                    <img src="${imgURL}" class="preview-image" alt="Analyzed fish image"/>
+                    
+                    <div class="predictions">
+                        <h2>🎯 Top Predictions</h2>
+                `;
+
+                sortedPredictions.forEach(([label, confidence]) => {
+                    const percentage = (confidence * 100).toFixed(1);
+                    resultsHTML += `
+                        <div class="prediction-item">
+                            <span class="prediction-label">${label}</span>
+                            <div class="prediction-bar">
+                                <div class="prediction-fill" style="width: ${percentage}%;">
+                                    ${percentage}%
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultsHTML += `
+                    </div>
+                    
+                    <div class="recipe-section">
+                        <h2>👨‍🍳 AI-Generated Recipe for ${fishName}</h2>
+                        <div class="recipe-content">${recipeText}</div>
+                    </div>
+                `;
+
+                results.innerHTML = resultsHTML;
+                submitBtn.disabled = false;
+
+            } catch (error) {
+                console.error("Error:", error);
+                results.innerHTML = `
+                    <div class="error">
+                        <strong>❌ Error:</strong> ${error.message || "Failed to process image. Please try again."}
+                    </div>
+                `;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>
